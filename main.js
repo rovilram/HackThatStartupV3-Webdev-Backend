@@ -24,6 +24,6 @@ server.use('/user', userRouter, errorMiddleware);
 
 server.use('/repo', repoRouter, errorMiddleware);
 
-server.listen(HTTP.port, HTTP.host, () => {
+server.listen(PORT, () => {
   console.log(`API server running at heroku at port ${PORT}`);
 });
