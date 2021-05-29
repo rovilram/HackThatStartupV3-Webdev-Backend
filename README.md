@@ -136,3 +136,4 @@ DB_URI = "mongodb+srv://<user>:<pass>@<atlashost>.mongodb.net/<database>"
 
 4. lanzar con node el fichero js principal: `npm start`.
 5. probar funcionamiento con postman. Se puede importar en postman el archivo `nuwe3.postman_collection.json` incluido.
+6. Se ha desplegado la aplicación react en heroku. (https://nuwe3-back.herokuapp.com/)
