@@ -1,8 +1,10 @@
-# HACK THAT STARTUP VOL.2 Reto Individual
+# HACK THAT STARTUP V3 | BACKEND VERSION
 
-## RETO
+Te proponemos ahora lo siguiente:
 
-### Unit Testing
+---
+
+## Unit Testing
 
 Para poder revisar que las funciones creadas funcionan complemente, implementa algún test unitario para revisar que realmente está funcionando.
 
@@ -11,30 +13,62 @@ Algunas librerias utilizadas por empresas para implementar tests:
 - [Jest](https://github.com/facebook/jest)
 - [Mocha](https://github.com/mochajs/mocha)
 - [Supertest]()
-- [react-testing-library]()
 
+---
 
+## API (1ª Parte)
 
-### Repository search
-
-
-Mientras el equipo de desarrollo implementa una API para poder cargar datos de usuarios, gestionar logins y registers, el euipo de front va a tener que implementar las vistas que les permita gestionar y enviar los datos de usuarios
+Ahora queremos crear una pequeña api que permita conectarse con nuestra base de datos que se encuentra en MongoDB y de esta forma poder enviar datos a nuestro squad de front.
 
 **Obejtivos**
 
-- Crear un proyecto basado en ReactJS utilizando los estilos que más os gusten 
-- Cread una vista desde dónde el usuario pueda introducir su nombre de github y se le muestren sus respositorios en formato grid.
-- Cread una card para mostrar el avatar, el nombre usuario y el número de repositorios que tiene en github.
-- Utilizad la API de github para poder hacer fetch de los datos de un usarios 
+- Levantar un server en el puerto 3000
+- Crear una base de datos en MongoDB Atlas y conectarse utilizando el string de conexión
+- Crear un modelo de usuario y aplicar las condiciones que sean necesarias para que el username y el email sean únicos:
 
-> - Llamad a la api de Github accediéndo a:
-    - user:gagocarrilloedgar
-    - repo:htsv3
-    - utilizad el id de la repo para desbloquear los siguientes pasos
+```js
+{
+    username:{type:string},
+    password:{type:string},
+    email:{type:string},
+    repos:{type:Number}
+}
+```
+
+- Cread un modelo de repositorio para poder almacenar las difererentes datos de los repositorios:
+
+```js
+{
+    name:{type:string},
+    url:{type:string},
+    description:{type:string},
+    stack:[]
+}
+```
+
+- Cread un método para proteger las contraseñas guardadas por el usuarios
+- Cread el CRUD de ambos modelos
 
 
-### Evaluación del código
+## API (2ª Parte)
 
+Vamos ahora a testear nuestro proyecto y hacer deploy de nuestra api para que el squad de front pueda conectar a el y utilizar la información de forma simple
+
+**Obejtivos**
+
+- Proteger las diferentes rutas creadas
+- Crear pruebas de integración de tu API
+- Finalmente hacer deploy con alguno de los providers gratuitos que más os guste:
+  - Heroku
+  - AWS
+  - Azure
+  - Digital Ocean
+  - ...
+- Refacto del códido si fuera necesario
+- Documentar el proceso de creación del proyecto
+
+
+## Evaluación del código
 
 - Calidad de código (bugs, errores, duplicados, etc)
 - Objetivos cumplidos
@@ -42,9 +76,9 @@ Mientras el equipo de desarrollo implementa una API para poder cargar datos de u
 - Velocidad de dessarrollo
 
 
-### MODELOS
+## MODELOS
 
-#### USER
+### USER
 
 **id** String, unique, required, generado con nanoid
 **username** String, unique, required
@@ -52,7 +86,7 @@ Mientras el equipo de desarrollo implementa una API para poder cargar datos de u
 **email** String, required, validada.
 **repos** Number
 
-#### REPO
+### REPO
 
 **id** String, unique, required, generado con nanoid
 **name**: String
@@ -61,9 +95,9 @@ Mientras el equipo de desarrollo implementa una API para poder cargar datos de u
 **stack** Array
 
 
-### ENDPOINTS CRUD
+## ENDPOINTS CRUD
 
-#### USER
+### USER
 
 **/user/** _POST_ CREA nuevo usuario. Recibe objeto del modelo User.
 **/user/** _GET_ DEVUELVE todos los usuarios.
@@ -72,7 +106,7 @@ Mientras el equipo de desarrollo implementa una API para poder cargar datos de u
 **/user/:id/** _PATCH_ MODIFICA el usuario pasado en _req.params_. Si se modifica la contraseña hace hash SHA256 antes de actualizar la base de datos
 **/user/:id/** _DELETE_ BORRA el usuario pasado en _req.params_.
 
-#### REPO
+### REPO
 
 **/repo/** _POST_ CREA nuevo repo. Recibe un objeto del modelo Repo
 **/repo/** _GET_ DEVUELVE todos los repo.
@@ -82,7 +116,7 @@ Mientras el equipo de desarrollo implementa una API para poder cargar datos de u
 **/repo/:id/** _DELETE_ BORRA el repo con idr pasado en _req.params_.
 
 
-### MIDDLEWARE ERRORES
+## MIDDLEWARE ERRORES
 
 middleware **errorMiddleware** que envía respuesta a front en caso de que haya habido algún error en los endpoints.
 
@@ -101,4 +135,4 @@ DB_URI = "mongodb+srv://<user>:<pass>@<atlashost>.mongodb.net/<database>"
 ```
 
 4. lanzar con node el fichero js principal: `npm start`.
-5. probar funcionamiento con postman. Se puede importar en postman el archivo `hackathon.postman_collection.json` incluido.
+5. probar funcionamiento con postman. Se puede importar en postman el archivo `nuwe3.postman_collection.json` incluido.
