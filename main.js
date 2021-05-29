@@ -10,7 +10,7 @@ const errorMiddleware = require('./middlewares/errorMiddleware');
 
 const server = express();
 
-const PORT = process.env.HTTP_API_PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 server.use(express.urlencoded({ extended: false }));
 server.use(express.json());
