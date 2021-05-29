@@ -2,55 +2,64 @@
 
 ## RETO
 
-Se debe construir una API Rest que devuelva información básica sobre estos asteroides. El API será un microservicio conectado a MongoDB
-y se utilizará para guardar nueva información y consultar información ya guardada.
+### Unit Testing
 
-1. MODELO DEL ASTEROIDE(NEA) y User
+Para poder revisar que las funciones creadas funcionan complemente, implementa algún test unitario para revisar que realmente está funcionando.
 
-2. findAll & addList
-   Implementar el método (findAll) que permite recuperar todos los
-   modelos tanto de User como de Neas.
-   Añadir el método addList que permita crear autmática modelos a
-   través de enviar un array de datos (para Users y Neas)
+Algunas librerias utilizadas por empresas para implementar tests:
 
-3. CRUD
-   Crear un CRUD para los modelos de User y NEAs.
+- [Jest](https://github.com/facebook/jest)
+- [Mocha](https://github.com/mochajs/mocha)
+- [Supertest]()
+- [react-testing-library]()
 
-4. AUTH
-   Implementar un método de autentificación (puedes utilizar páquetes
-   o hacer el authToken / session tu mismo)
 
-Debe poder permitirte registrarte y hacer login con username y
-password.
 
-5. TESTING
-   Testing automáticos y con Postman / Insomnia
+### Repository search
 
-6. CSV to JSON
-   Implementa un método que convierta un csv en un json e incorpora
-   la información de los asteroides del csv ‘OrbitalParameters_PHAs.csv’.
-   en tu DB
 
-## DOCUMENTACIÓN
+Mientras el equipo de desarrollo implementa una API para poder cargar datos de usuarios, gestionar logins y registers, el euipo de front va a tener que implementar las vistas que les permita gestionar y enviar los datos de usuarios
+
+**Obejtivos**
+
+- Crear un proyecto basado en ReactJS utilizando los estilos que más os gusten 
+- Cread una vista desde dónde el usuario pueda introducir su nombre de github y se le muestren sus respositorios en formato grid.
+- Cread una card para mostrar el avatar, el nombre usuario y el número de repositorios que tiene en github.
+- Utilizad la API de github para poder hacer fetch de los datos de un usarios 
+
+> - Llamad a la api de Github accediéndo a:
+    - user:gagocarrilloedgar
+    - repo:htsv3
+    - utilizad el id de la repo para desbloquear los siguientes pasos
+
+
+### Evaluación del código
+
+
+- Calidad de código (bugs, errores, duplicados, etc)
+- Objetivos cumplidos
+- Documentación proporcionada
+- Velocidad de dessarrollo
+
 
 ### MODELOS
 
 #### USER
 
-**idUser** String, unique, required
-**userName** String, unique, required
-**password** String, required
-**secretKey** String, required --> es la clave con la que generar el token JWT de autenticación.
+**id** String, unique, required, generado con nanoid
+**username** String, unique, required
+**password** String, required, hasheada SHA256
+**email** String, required, validada.
+**repos** Number
 
-#### NEA
+#### REPO
 
-**idNea** String, unique, required
-**fullName**: String, unique, true
-**a** Number, required
-**i** Number, required
-**om** Number, required
-**w** Number, required
-**ma** Number, required
+**id** String, unique, required, generado con nanoid
+**name**: String
+**url** String
+**description** String
+**stack** Array
+
 
 ### ENDPOINTS CRUD
 
@@ -60,37 +69,36 @@ password.
 **/user/** _GET_ DEVUELVE todos los usuarios.
 
 **/user/:id/** _GET_ DEVUELVE el usuario pasado en _req.params_.
-**/user/:id/** _PATCH_ MODIFICA el usuario pasado en _req.params_. Puede recibir _userName_ y/o _password_
+**/user/:id/** _PATCH_ MODIFICA el usuario pasado en _req.params_. Si se modifica la contraseña hace hash SHA256 antes de actualizar la base de datos
 **/user/:id/** _DELETE_ BORRA el usuario pasado en _req.params_.
 
-#### NEA
+#### REPO
 
-**/nea/** _POST_ CREA nuevo Nea. Recibe un objeto del modelo Nea
-**/nea/** _GET_ DEVUELVE todos los Nea.
+**/repo/** _POST_ CREA nuevo repo. Recibe un objeto del modelo Repo
+**/repo/** _GET_ DEVUELVE todos los repo.
 
-**/nea/:id/** _GET_ DEVUELVE el Nea con idNea pasado en _req.params_.
-**/nea/:id/** _PATCH_ MODIFICA el Nea con idNEa pasado en _req.params_. Puede recibir _neaName_ y/o _password_
-**/nea/:id/** _DELETE_ BORRA el Nea con idNea pasado en _req.params_.
+**/repo/:id/** _GET_ DEVUELVE el repo con id pasado en _req.params_.
+**/repo/:id/** _PATCH_ MODIFICA el repo con id pasado en _req.params_.
+**/repo/:id/** _DELETE_ BORRA el repo con idr pasado en _req.params_.
 
-### ENDPOINTS ADICIONALES
 
-**/user/list** _CREA_ **varios** usuarios. Recibe un array de objetos del modelo User
-**/nea/list** _CREA_ **varios** Neas. Recibe un array de objetos del modelo Nea
+### MIDDLEWARE ERRORES
 
-### ENDPOINTS AUTORIZACIÓN
-
-**/login** recoje usuario y contraseña y devuelve un **token JWT** a front para autentificarse.
-**/logout** recoje el token y lo desactiva.
-
-### MIDDLEWARE AUTORIZACIÓN
-
-middleware **autUser** que limita el paso a los endpoints del router _/user_ y _/neas_. No se puede hacer nada con ellos sin pasar un _token_ válido.
+middleware **errorMiddleware** que envía respuesta a front en caso de que haya habido algún error en los endpoints.
 
 ## INSTALACIÓN
 
-1. Clonar repositorio: `git clone https://github.com/rovilram/nuwehackathon-individual`.
+1. Clonar repositorio: `git clone https://github.com/rovilram/HackThatStartupV3-Webdev-Backend`.
 2. reconstituir dependencias npm: `npm install`.
-3. modificar si se quiere los valores predefinidos de servidor web y base de datos, en archivo `.env`, incluido en el repositorio para facilitar instalación.
-4. Ejecutar script para recostituir la base de datos a partir de CSV de NEAS y un json con usuarios predeterminados:. `npm run seeds`.
-5. lanzar con node el fichero js principal: `node main.js`.
-6. probar funcionamiento con postman. Se puede importar en postman el archivo `hackathon.postman_collection.json` incluido.
+3. añadir datos de configuración de base de datos en .env con este formato:
+```bash
+#API server
+HTTP_API_PORT = 3000
+HTTP_API_HOST = "localhost"
+
+#mongoDB server
+DB_URI = "mongodb+srv://<user>:<pass>@<atlashost>.mongodb.net/<database>"
+```
+
+4. lanzar con node el fichero js principal: `npm start`.
+5. probar funcionamiento con postman. Se puede importar en postman el archivo `hackathon.postman_collection.json` incluido.
